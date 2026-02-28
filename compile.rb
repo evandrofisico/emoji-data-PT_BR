@@ -9,26 +9,26 @@ require "formatter"
 
 compiler = Compiler.new
 
-$stderr.print "Loading CLDR emoji-test file…"
+$stderr.print "Carregando dados de teste"
 compiler.add_test_file(
-  "cldr/tools/cldr-code/src/main/resources/org/unicode/cldr/util/data/emoji/emoji-test.txt"
+  "emoji-test-pt_br.txt"
 )
-warn " Done!"
+warn " Feito!"
 
 $stderr.print "Loading annotations"
 Dir[
-  "cldr/common/annotations/*.xml",
-  "cldr/common/annotationsDerived/*.xml",
+  "cldr/common/annotations/pt*.xml",
+  "cldr/common/annotationsDerived/pt*.xml",
 ].each do |filename|
   compiler.add_annotation_file(
     filename
   )
   $stderr.print "."
 end
-warn " Done!"
+warn " Feito!"
 
-$stderr.print "Trying to determine missing categories… "
+$stderr.print "Tentando determinar categorias faltantes… "
 compiler.guess_missing_categories
-warn " Done!"
+warn " Feito!"
 
 puts JSON.pretty_generate(Formatter.new(compiler.emojis.values))
